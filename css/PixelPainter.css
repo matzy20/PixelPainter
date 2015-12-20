@@ -1,0 +1,47 @@
+/* '.' = class
+*/
+
+/*give things a background color, it's the console.log of CSS
+*borders are additional widths to block
+*box-sizing everything to 'border-box' is a good practice (needs *)
+  *{
+  box-sizing: border-box;
+  }
+
+  */
+
+/*grouping to avoid copy/paste */
+.container, .swatch, .grid, .cell {
+  border: 1px solid black;
+}
+.swatch {
+  display: block;
+  height: 25px;
+  width: 25px;
+}
+
+.cell {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
+.canvasCell {
+  display: inline-block;
+  border: 1px solid black;
+  height: 30px;
+  width: 30px;
+}
+
+.canvasContainer {
+  display: inline-block;
+  border: 1px solid blue;
+  float: middle;
+
+}
+.swatchContainer {
+  display: inline-block;
+  border: 1px solid red;
+  float: left;
+}
+
