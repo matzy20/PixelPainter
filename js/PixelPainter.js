@@ -8,6 +8,7 @@ $(function(){
 //same as
 // $(run);
 
+var swatchContainer;
 function run () {
   init();
   //private variable created so SWATCH AND CANVAS can access!!
@@ -29,6 +30,13 @@ function init () {
     console.log(color);
     $(this).css("background-color", color);
   });
+  clearButton();
+}
+
+function clearButton (events){
+  var $button = $('<button />').text('CLEAR');
+  $button.addClass('button');
+  swatchContainer.append($button);
 }
 
 function canvasGrid (width, height) {
@@ -57,14 +65,13 @@ function canvasGrid (width, height) {
       }
       canvasContainer.append(row);
     }
-    console.log('hello');
 pixelPainterContainer.append(canvasContainer);
-
 }
+
 function drawSwatchGrid (x, y) {
-  var swatchContainer = $('<div />');
-    swatchContainer
-      .addClass('swatchContainer');
+  swatchContainer = $('<div />');
+  swatchContainer
+    .addClass('swatchContainer');
   // gridContainer.attr('id','grid');
   // gridContainer.addClass('container');
   $('div.pixelPainterContainer').append(swatchContainer);

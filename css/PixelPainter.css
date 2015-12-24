@@ -26,6 +26,13 @@
   width: 30px;
 }
 
+.button {
+  display: flex;
+  border-radius: 30%;
+  background-color: yellow;
+  font-weight: bold;
+}
+
 .canvasCell {
   display: inline-block;
   border: 1px solid black;
@@ -41,7 +48,7 @@
 }
 .swatchContainer {
   display: inline-block;
-  border: 1px solid red;
+  border: 1px solid none;
   float: left;
 }
 
