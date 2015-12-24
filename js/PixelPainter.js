@@ -12,7 +12,7 @@ var swatchContainer;
 function run () {
   init();
   //private variable created so SWATCH AND CANVAS can access!!
-  var color;
+  var color = 'rgb(0, 0, 0)';
 }
 //'setter' function, takes in a value and 'sets' it
 function init () {
@@ -23,6 +23,8 @@ function init () {
   $('.cell').click(function (events){
     color = $(this).css("background-color");
     console.log(color);
+    $('.swatchContainer .cell').removeClass('selected-color');
+    $(this).addClass('selected-color');
     $(this).css("background-color", color);
   });
   canvasGrid(10, 10);
@@ -30,6 +32,7 @@ function init () {
     console.log(color);
     $(this).css("background-color", color);
   });
+  eraseButton();
   clearButton();
 }
 
@@ -37,7 +40,16 @@ function clearButton (events){
   var $button = $('<button />').text('CLEAR');
   $button.addClass('button');
   swatchContainer.append($button);
+
+  $('.button').click(function (events) {
+    $('.canvasCell').css("background-color", "white");
+  });
 }
+
+function eraseButton (events){
+
+}
+
 
 function canvasGrid (width, height) {
   if (width > 20){
