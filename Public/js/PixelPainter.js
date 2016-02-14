@@ -17,12 +17,11 @@ function run () {
 //'setter' function, takes in a value and 'sets' it
 function init () {
   pixelPainterContainer = $('#pixelPainter');
-  console.log(pixelPainterContainer);
+  // console.log(pixelPainterContainer);
 
   drawSwatchGrid(6, 6);
   $('.cell').click(function (events){
     color = $(this).css("background-color");
-    console.log(color);
     $('.swatchContainer .cell').removeClass('selected-color');
     $(this).addClass('selected-color');
     $(this).css("background-color", color);
@@ -35,6 +34,7 @@ function init () {
 
   eraseButton();
   clearButton();
+  saveButton();
 }
 
 function clearButton (events){
@@ -58,6 +58,43 @@ function eraseButton (events){
     //how to make that clicked on cell white
     $('.canvasCell').click(function (events) {
       $(this).css("background-color", "white");
+    });
+  });
+}
+
+function saveButton(events){
+
+  var $button = $('<button />').text('SAVE');
+
+
+  $button.addClass('button');
+  swatchContainer.append($button);
+  $button.click(function (events){
+    var data = [];
+
+    $('.canvasCell').each(function (index, element){
+      var color = $(element).css("background-color");
+      //condition only works after reloading after 'save'
+      //if updates made after save, goes bazerk
+      if(color === 'rgba(0, 0, 0, 0)'){
+        return null;
+      }else{
+      data.push($(element).css("background-color"));
+      }
+    });
+
+    //ajax allows you to send stuff to server from static app/client files
+    //http://api.jquery.com/jquery.ajax/
+    $.ajax({
+      type: "POST",
+      url: "/paintings",
+      data: JSON.stringify({"canvasData":data}),//TODO: tbd info}
+      dataType: "JSON",
+      contentType: "application/json",
+      success: function () {}
+    })
+    .done(function (){
+      alert("Your painting has been saved.");
     });
   });
 }

@@ -37,11 +37,12 @@ app.get('/paintings', function (req, res){
 });
 
 app.get('paintings/:id', function (req, res){
-  var paintingId = req.params.id;
+  var _id = req.params.id;
+  console.log(req.params.id);
 
-  Painting.findById(paintingId, function (err, paintings){
+  Painting.findOne(_id, function (err, paintings){
     if(err){
-      res.send(paintingId + 'is not a valid ID');
+      res.send(_id + 'is not a valid ID');
     }
     //TODO: create success res here
     res.sendStatus(200);
@@ -53,8 +54,8 @@ app.post('/paintings', function (req, res){
     Artist: String,
     PixelPainting: req.body.canvasData
   });
-  newPainting.save();
   res.send('This PixelPainting has been added to the gallery!');
+  newPainting.save();
 });
 
 var db = mongoose.connection;
