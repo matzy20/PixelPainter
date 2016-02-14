@@ -1,0 +1,65 @@
+/*CLIENT - THIS IS MY APP
+
+/* '.' = class*/
+/*give things a background color, it's the console.log of CSS
+*borders are additional widths to block
+*box-sizing everything to 'border-box' is a good practice (needs *)*/
+
+/**{
+box-sizing: border-box;
+}*/
+/*grouping to avoid copy/paste */
+
+.container, .swatch, .grid, .cell {
+  border: 1px solid black;
+}
+.swatch {
+  display: block;
+  height: 25px;
+  width: 25px;
+}
+
+.cell {
+  display: inline-block;
+  position: relative;
+  height: 30px;
+  width: 30px;
+}
+
+.button {
+  display: flex;
+  border-radius: 30%;
+  background-color: yellow;
+  font-weight: bold;
+}
+
+.selected-color:before {
+  content: '';
+  top: -4;
+  left: -4;
+  height: 30px;
+  z-index: 5;
+  width: 30px;
+  position: absolute;
+  border: 4px solid red;
+}
+
+.canvasCell {
+  display: inline-block;
+  border: 1px solid black;
+  height: 30px;
+  width: 30px;
+}
+
+.canvasContainer {
+  display: inline-block;
+  border: 1px solid blue;
+  float: middle;
+
+}
+.swatchContainer {
+  display: inline-block;
+  border: 1px solid none;
+  float: left;
+}
+
