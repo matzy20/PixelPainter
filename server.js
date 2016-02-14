@@ -6,13 +6,19 @@ var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 //mongo is running on in terminal
 mongoose.connect('mongodb://localhost/pixelpainter');
-var pixelSchema = mongoose.Schema({owner: String});
+
+var pixelSchema = mongoose.Schema({
+  Artist: String,
+  PixelPainting: {}
+});
 //intsantiating Painting (model), paintings (database) which mongo creates
 var Painting = mongoose.model('Painting', pixelSchema);
 
 var app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
+//due to ajax and save button on client/app.js need to parse for JSON also
+app.use(bodyParser.json({extended: false}));
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 app.use(express.static(path.resolve(__dirname, 'Public')));
@@ -28,6 +34,27 @@ app.get('/paintings', function (req, res){
     console.log('getting paintings');
     res.render('index');
   });
+});
+
+app.get('paintings/:id', function (req, res){
+  var paintingId = req.params.id;
+
+  Painting.findById(paintingId, function (err, paintings){
+    if(err){
+      res.send(paintingId + 'is not a valid ID');
+    }
+    //TODO: create success res here
+    res.sendStatus(200);
+  });
+});
+
+app.post('/paintings', function (req, res){
+  var newPainting = new Painting ({
+    Artist: String,
+    PixelPainting: req.body.canvasData
+  });
+  newPainting.save();
+  res.send('This PixelPainting has been added to the gallery!');
 });
 
 var db = mongoose.connection;
