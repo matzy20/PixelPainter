@@ -36,7 +36,7 @@ app.get('/paintings', function (req, res){
   });
 });
 //not working need to FIX
-app.get('paintings/:id', function (req, res){
+app.get('/paintings/:id', function (req, res){
   var paintingId = req.params.id;
   console.log('hello', req.params.id);
   Painting.findById(paintingId, function (err, paintings){
@@ -45,8 +45,8 @@ app.get('paintings/:id', function (req, res){
     }
     //TODO: create success res here
     // return Painting.findOne();
-    res.json(paintings);
-    // res.sendStatus(200);
+    // res.json(paintings);
+    res.sendStatus(200);
   });
 });
 
