@@ -35,17 +35,18 @@ app.get('/paintings', function (req, res){
     res.render('index');
   });
 });
-
+//not working need to FIX
 app.get('paintings/:id', function (req, res){
-  var _id = req.params.id;
-  console.log(req.params.id);
-
-  Painting.findOne(_id, function (err, paintings){
+  var paintingId = req.params.id;
+  console.log('hello', req.params.id);
+  Painting.findById(paintingId, function (err, paintings){
     if(err){
-      res.send(_id + 'is not a valid ID');
+      console.log(paintingId + 'is not a valid ID');
     }
     //TODO: create success res here
-    res.sendStatus(200);
+    // return Painting.findOne();
+    res.json(paintings);
+    // res.sendStatus(200);
   });
 });
 
