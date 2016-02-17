@@ -6,10 +6,10 @@ var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 //mongo is running on in terminal
 mongoose.connect('mongodb://localhost/pixelpainter');
-
+//QUESTION: model vs schema, schema = properties on model?
 var pixelSchema = mongoose.Schema({
-  Artist: String,
-  PixelPainting: {}
+  artist: String,
+  PixelPainting: String
 });
 //intsantiating Painting (model), paintings (database) which mongo creates
 var Painting = mongoose.model('Painting', pixelSchema);
@@ -32,13 +32,16 @@ app.get('/paintings', function (req, res){
       res.send(err + 'is not valid');
     }
     console.log('getting paintings');
-    res.render('index');
+    res.render('index', {
+      //TODO: expected this to attach all paintings, see jade
+      'paintings': paintings
+    });
   });
 });
-//not working need to FIX
 app.get('/paintings/:id', function (req, res){
   var paintingId = req.params.id;
   console.log('hello', req.params.id);
+  console.log('paintings', Painting);
   Painting.findById(paintingId, function (err, paintings){
     if(err){
       console.log(paintingId + 'is not a valid ID');
@@ -46,7 +49,12 @@ app.get('/paintings/:id', function (req, res){
     //TODO: create success res here
     // return Painting.findOne();
     // res.json(paintings);
-    res.sendStatus(200);
+    res.render('painting' ,{
+      //TODO: confirm, the 'saved' Painting/:id to appear correct?
+      'artist': 'Gail',
+      'PixelPainting': Painting,
+      'id': paintingId
+    });
   });
 });
 
