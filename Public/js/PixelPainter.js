@@ -80,22 +80,26 @@ function saveButton(events){
         return null;
       }else{
       data.push($(element).css("background-color"));
+      console.log(color);
       }
     });
 
     //ajax allows you to send stuff to server from static app/client files
     //http://api.jquery.com/jquery.ajax/
     $.ajax({
+      //QUESTION: able to create one also for GET for :id?
       type: "POST",
       url: "/paintings",
       data: JSON.stringify({"canvasData":data}),//TODO: tbd info}
       dataType: "JSON",
       contentType: "application/json",
-      success: function () {}
-    })
-    .done(function (){
-      alert("Your painting has been saved.");
+      success: function (message) {
+        console.log('Hello Ajax', message);
+      }
     });
+    // .done(function (){
+    //   alert("Your painting has been saved.");
+    // });
   });
 }
 

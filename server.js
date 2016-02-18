@@ -9,7 +9,8 @@ mongoose.connect('mongodb://localhost/pixelpainter');
 //QUESTION: model vs schema, schema = properties on model?
 var pixelSchema = mongoose.Schema({
   artist: String,
-  PixelPainting: String
+  painting: Object,
+  title: String
 });
 //intsantiating Painting (model), paintings (database) which mongo creates
 var Painting = mongoose.model('Painting', pixelSchema);
@@ -32,39 +33,45 @@ app.get('/paintings', function (req, res){
       res.send(err + 'is not valid');
     }
     console.log('getting paintings');
-    res.render('index', {
-      //TODO: expected this to attach all paintings, see jade
-      'paintings': paintings
-    });
+    res.render('index'
+      // //TODO: expected this to attach all paintings, see jade
+      // 'paintings': paintings
+    );
   });
 });
 app.get('/paintings/:id', function (req, res){
   var paintingId = req.params.id;
   console.log('hello', req.params.id);
-  console.log('paintings', Painting);
+  // console.log('paintings', Painting);
   Painting.findById(paintingId, function (err, paintings){
     if(err){
       console.log(paintingId + 'is not a valid ID');
     }
     //TODO: create success res here
-    // return Painting.findOne();
-    // res.json(paintings);
     res.render('painting' ,{
       //TODO: confirm, the 'saved' Painting/:id to appear correct?
       'artist': 'Gail',
-      'PixelPainting': Painting,
+      'title': 'Picasso',
       'id': paintingId
     });
+    // res.send(paintings);
   });
 });
 
 app.post('/paintings', function (req, res){
+  console.log('typeOf', typeof(req.body.canvasData));
   var newPainting = new Painting ({
-    Artist: String,
-    PixelPainting: req.body.canvasData
+    artist: 'Joe',
+    painting: req.body.canvasData,
+    title: 'Pixel by Id'
   });
-  res.send('This PixelPainting has been added to the gallery!');
+  //speaking with ajax in client/app
+  //if successful, ajax's message will show
+  // res.json({
+  //   'artist': 'Gail'
+  // });
   newPainting.save();
+  res.sendStatus(200);
 });
 
 var db = mongoose.connection;
