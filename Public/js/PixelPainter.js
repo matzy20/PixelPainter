@@ -3,10 +3,8 @@
 //JQuery makes working with DOM easier
 //JQuery selector does NOT return DOM though, return JQuery
 
-$(function(){
-  run();
-});
-//same as $(run);
+$(run);
+// same as $(run);
 
 var swatchContainer;
 function run () {
@@ -17,11 +15,11 @@ function run () {
 //'setter' function, takes in a value and 'sets' it
 function init () {
   pixelPainterContainer = $('#pixelPainter');
-  // console.log(pixelPainterContainer);
-
+  //
   drawSwatchGrid(6, 6);
-  $('.cell').click(function (events){
+  $('.swatchContainer .cell').click(function (events){
     color = $(this).css("background-color");
+    //cell in swatchContainer for jade
     $('.swatchContainer .cell').removeClass('selected-color');
     $(this).addClass('selected-color');
     $(this).css("background-color", color);
@@ -32,49 +30,67 @@ function init () {
     $(this).css("background-color", color);
   });
 
-  eraseButton();
-  clearButton();
-  saveButton();
+  // clearButton();
+  // eraseButton();
+  // saveButton();
 }
-/*TODO: gradually start clearing PixelPainter.js to defer to testGrid using jade */
-function clearButton (events){
-  console.log('inside clear button');
-  var clearButton = $('.clear');
-  console.log(clearButton);
+/*TODO: gradually start commenting out original PixelPainter.js to defer to testGrid using jade */
+// function clearButton (events){
   $('.clear').click(function (events) {
     $('.canvasCell').css("background-color", "white");
   });
-}
 
-function eraseButton (events){
-  var $button = $('<button />').text('ERASE');
-  //make sure not a CLASS button and it's THIS eraseButton
-  $button.addClass('button');
-  swatchContainer.append($button);
+// function eraseButton (events){
+//    var color = $(this).css("background-color");
+//   var $button = $('<button />').text('ERASE');
+  // make sure not a CLASS button and it's THIS eraseButton
+  // $button.addClass('button');
+  // swatchContainer.append($button);
 
-  $button.click(function (events) {
-    //how to make that clicked on cell white
-    $('.canvasCell').click(function (events) {
+  $('.erase').click(function (events){
+    $('.canvasCell').click(function (events){
       $(this).css("background-color", "white");
+      //able to reapply colors again after clicking in swatchGrid
+    $('.cell').click(function (events){
+      $(this).css("background-color", color);
+        $('.canvasCell').click(function (events){
+          $(this).css("background-color", color);
+        });
+    });
     });
   });
-}
-
+  // $button.click(function (events) {
+  //   //how to make that clicked on cell white
+  //   $('.canvasCell').click(function (events) {
+  //     $(this).css("background-color", "white");
+  //   });
+  // });
+// }
 function saveButton(events){
-
-  var $button = $('<button />').text('SAVE');
-
-
-  $button.addClass('button');
-  swatchContainer.append($button);
-  $button.click(function (events){
+  $('.save').click(function (events){
     var data = [];
 
     $('.canvasCell').each(function (index, element){
       var color = $(element).css("background-color");
-      //condition only works after reloading after 'save'
-      data.push(index, $(element).css("background-color"));
+      data.push(index, color);
+      console.log(data);
     });
+  });
+
+
+//   var $button = $('<button />').text('SAVE');
+
+
+//   $button.addClass('button');
+//   swatchContainer.append($button);
+//   $button.click(function (events){
+//     var data = [];
+
+//     $('.canvasCell').each(function (index, element){
+//       var color = $(element).css("background-color");
+//       //condition only works after reloading after 'save'
+//       data.push(index, $(element).css("background-color"));
+//     });
 
     //ajax allows you to send stuff to server from static app/client files
     //http://api.jquery.com/jquery.ajax/
@@ -89,10 +105,6 @@ function saveButton(events){
         console.log('Hello Ajax', message);
       }
     });
-    // .done(function (){
-    //   alert("Your painting has been saved.");
-    // });
-  });
 }
 
 function canvasGrid (width, height) {
