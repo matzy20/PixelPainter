@@ -36,14 +36,12 @@ function init () {
   clearButton();
   saveButton();
 }
-
+/*TODO: gradually start clearing PixelPainter.js to defer to testGrid using jade */
 function clearButton (events){
-  var $button = $('<button />').text('CLEAR');
-  $button.addClass('button');
-  swatchContainer.append($button);
-  /*changed from class button to THIS button, which overrid
-  eraseButton (clearing all) due to order above*/
-  $button.click(function (events) {
+  console.log('inside clear button');
+  var clearButton = $('.clear');
+  console.log(clearButton);
+  $('.clear').click(function (events) {
     $('.canvasCell').css("background-color", "white");
   });
 }
@@ -161,7 +159,8 @@ function drawSwatchGrid (x, y) {
   }
 
   //after reading the jQuery documentation, found out 'element', allowed to access single swatch vs all
-  $('.cell').each(function(index, element){
+  //find cells inside of swatchContainer
+  $('.swatchContainer .cell').each(function(index, element){
   //now able to call generateRandomColor function
   $(element).css("background-color", generateRandomColor());
   });

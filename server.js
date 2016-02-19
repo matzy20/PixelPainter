@@ -10,6 +10,7 @@ mongoose.connect('mongodb://localhost/pixelpainter');
 var pixelSchema = mongoose.Schema({
   artist: String,
   painting: Object,
+  id: String,
   title: String
 });
 //intsantiating Painting (model), paintings (database) which mongo creates
@@ -39,6 +40,7 @@ app.get('/paintings', function (req, res){
     );
   });
 });
+
 app.get('/paintings/:id', function (req, res){
   var paintingId = req.params.id;
   console.log('hello', req.params.id);
@@ -48,13 +50,12 @@ app.get('/paintings/:id', function (req, res){
       console.log(paintingId + 'is not a valid ID');
     }
     //TODO: create success res here
-    res.render('painting' ,{
+    res.render('testGrid' ,{
       //TODO: confirm, the 'saved' Painting/:id to appear correct?
-      'artist': 'Gail',
-      'title': 'Picasso',
-      'id': paintingId
+      // 'artist': 'Gail',
+      // 'title': 'Picasso',
+      // 'id': paintingId
     });
-    // res.send(paintings);
   });
 });
 
@@ -63,15 +64,15 @@ app.post('/paintings', function (req, res){
   var newPainting = new Painting ({
     artist: 'Joe',
     painting: req.body.canvasData,
-    title: 'Pixel by Id'
+    title: 'Painting by'
   });
   //speaking with ajax in client/app
   //if successful, ajax's message will show
-  // res.json({
-  //   'artist': 'Gail'
-  // });
-  newPainting.save();
-  res.sendStatus(200);
+  //callback in save sent back painting object
+  newPainting.save(function(err, painting){
+    //json since painting is an object
+    res.json(painting);
+  });
 });
 
 var db = mongoose.connection;
