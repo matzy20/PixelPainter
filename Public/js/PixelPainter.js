@@ -26,7 +26,7 @@ function init () {
     $(this).addClass('selected-color');
     $(this).css("background-color", color);
   });
-  canvasGrid(10, 10);
+  canvasGrid(5, 5);
   $('.canvasCell').click(function (events){
     console.log(color);
     $(this).css("background-color", color);
@@ -75,13 +75,7 @@ function saveButton(events){
     $('.canvasCell').each(function (index, element){
       var color = $(element).css("background-color");
       //condition only works after reloading after 'save'
-      //if updates made after save, goes bazerk
-      if(color === 'rgba(0, 0, 0, 0)'){
-        return null;
-      }else{
-      data.push($(element).css("background-color"));
-      console.log(color);
-      }
+      data.push(index, $(element).css("background-color"));
     });
 
     //ajax allows you to send stuff to server from static app/client files
@@ -104,15 +98,15 @@ function saveButton(events){
 }
 
 function canvasGrid (width, height) {
-  if (width > 20){
-    alert("cannot exceed more than 20");
+  if (width > 5){
+    alert("cannot exceed more than 10");
     return;
   }
-  if (height > 20){
-    alert("cannot exceed more than 20");
+  if (height > 5){
+    alert("cannot exceed more than 10");
     return;
   }
-
+  var idIterator = 0;
   var canvasContainer = $('<div />');
     canvasContainer
       .addClass('canvasContainer');
@@ -124,7 +118,9 @@ function canvasGrid (width, height) {
       for (var j = 0; j < height; j++){
         var cellElement = $('<div />');
         cellElement
-          .addClass('canvasCell');
+          .addClass('canvasCell')
+          //creates an id on each div for canvasGrid
+          .attr('id', ++idIterator);
         row.append(cellElement);
       }
       canvasContainer.append(row);
