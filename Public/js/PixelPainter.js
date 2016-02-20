@@ -75,6 +75,9 @@ function init () {
       var color = $(element).css("background-color");
       data.push(color);
     });
+    //kept separate from data[] which is for colors, easier this way
+    //added artist and title as two separate properties
+    //kept out of each function
     var artist = $('.artist').val();
     var title = $('.title').val();
     console.log('data', data);

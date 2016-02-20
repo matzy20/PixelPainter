@@ -34,9 +34,9 @@ app.get('/paintings', function (req, res){
     if(err){
       res.send(err + 'no Paintings to display');
     }
-    //TODO: need to update, rendering old PixelPainter
-    res.send('testing get route');
-    // res.render('testGrid');
+    res.render('index', {
+      'paintings': paintings
+    });
   });
 });
 
@@ -49,7 +49,11 @@ app.get('/paintings/:id', function (req, res){
       console.log(paintingId + 'is not a valid ID');
     }
     //TODO: create success res here
-    res.render('testGrid' ,{
+  }).then(function(painting){
+    res.render('savedGrid',{
+      'artist': painting.artist,
+      'title': painting.title
+
     });
   });
 });
