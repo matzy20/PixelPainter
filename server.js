@@ -9,9 +9,9 @@ mongoose.connect('mongodb://localhost/pixelpainter');
 //QUESTION: model vs schema, schema = properties on model?
 var pixelSchema = mongoose.Schema({
   artist: String,
+  title: String,
   painting: Object,
-  id: String,
-  title: String
+  id: String
 });
 //intsantiating Painting (model), paintings (database) which mongo creates
 var Painting = mongoose.model('Painting', pixelSchema);
@@ -28,16 +28,15 @@ app.use(express.static(path.resolve(__dirname, 'Public')));
 app.set('views', 'views');
 app.set('view engine', 'jade');
 
+//see all INDEX of paintings
 app.get('/paintings', function (req, res){
-  Painting.find({},function (err, paintings){
+  Painting.find({}, function (err, paintings){
     if(err){
-      res.send(err + 'is not valid');
+      res.send(err + 'no Paintings to display');
     }
-    console.log('getting paintings');
-    res.render('index'
-      // //TODO: expected this to attach all paintings, see jade
-      // 'paintings': paintings
-    );
+    //TODO: need to update, rendering old PixelPainter
+    res.send('testing get route');
+    // res.render('testGrid');
   });
 });
 
@@ -51,20 +50,17 @@ app.get('/paintings/:id', function (req, res){
     }
     //TODO: create success res here
     res.render('testGrid' ,{
-      //TODO: confirm, the 'saved' Painting/:id to appear correct?
-      // 'artist': 'Gail',
-      // 'title': 'Picasso',
-      // 'id': paintingId
     });
   });
 });
 
 app.post('/paintings', function (req, res){
-  console.log('typeOf', typeof(req.body.canvasData));
+  // console.log('typeof', typeof(req.body));
+  console.log(req.body.colors);
   var newPainting = new Painting ({
-    artist: 'Joe',
-    painting: req.body.canvasData,
-    title: 'Painting by'
+    artist: req.body.artist,
+    title: req.body.title,
+    painting: req.body.colors
   });
   //speaking with ajax in client/app
   //if successful, ajax's message will show

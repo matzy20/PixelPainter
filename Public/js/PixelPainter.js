@@ -12,7 +12,7 @@ function run () {
   //private variable created so SWATCH AND CANVAS can access!!
   var color = 'rgb(0, 0, 0)';
 }
-//'setter' function, takes in a value and 'sets' it
+//controls to coloring canvasContainer
 function init () {
   pixelPainterContainer = $('#pixelPainter');
   //
@@ -34,7 +34,7 @@ function init () {
   // eraseButton();
   // saveButton();
 }
-/*TODO: gradually start commenting out original PixelPainter.js to defer to testGrid using jade */
+/***TODO: gradually start commenting out original PixelPainter.js to defer to testGrid using jade ***/
 // function clearButton (events){
   $('.clear').click(function (events) {
     $('.canvasCell').css("background-color", "white");
@@ -66,26 +66,41 @@ function init () {
   //   });
   // });
 // }
-function saveButton(events){
+// function saveButton(events){
+  var data = [];
   $('.save').click(function (events){
-    var data = [];
-
+    //make sure ajax is accessed before click event completes
+    //
     $('.canvasCell').each(function (index, element){
       var color = $(element).css("background-color");
-      data.push(index, color);
-      console.log(data);
+      data.push(color);
+    });
+    var artist = $('.artist').val();
+    var title = $('.title').val();
+    console.log('data', data);
+    $.ajax({
+      //QUESTION: able to create one also for GET for :id?
+      type: "POST",
+      url: "/paintings",
+      data: JSON.stringify({
+       "colors": data,
+       "artist": artist,
+       "title": title
+       }),
+      dataType: "JSON",
+      contentType: "application/json",
+      success: function (data) {
+        console.log('Hello Ajax', data);
+      }
     });
   });
 
 
 //   var $button = $('<button />').text('SAVE');
-
-
 //   $button.addClass('button');
 //   swatchContainer.append($button);
 //   $button.click(function (events){
 //     var data = [];
-
 //     $('.canvasCell').each(function (index, element){
 //       var color = $(element).css("background-color");
 //       //condition only works after reloading after 'save'
@@ -94,72 +109,61 @@ function saveButton(events){
 
     //ajax allows you to send stuff to server from static app/client files
     //http://api.jquery.com/jquery.ajax/
-    $.ajax({
-      //QUESTION: able to create one also for GET for :id?
-      type: "POST",
-      url: "/paintings",
-      data: JSON.stringify({"canvasData":data}),//TODO: tbd info}
-      dataType: "JSON",
-      contentType: "application/json",
-      success: function (message) {
-        console.log('Hello Ajax', message);
-      }
-    });
-}
+// }
 
 function canvasGrid (width, height) {
-  if (width > 5){
-    alert("cannot exceed more than 10");
-    return;
-  }
-  if (height > 5){
-    alert("cannot exceed more than 10");
-    return;
-  }
-  var idIterator = 0;
-  var canvasContainer = $('<div />');
-    canvasContainer
-      .addClass('canvasContainer');
+//   if (width > 5){
+//     alert("cannot exceed more than 10");
+//     return;
+//   }
+//   if (height > 5){
+//     alert("cannot exceed more than 10");
+//     return;
+//   }
+//   var idIterator = 0;
+//   var canvasContainer = $('<div />');
+//     canvasContainer
+//       .addClass('canvasContainer');
 
-    for (var i = 0; i < width; i++){
-      var row = $('<div />');
-        row
-        .addClass('row');
-      for (var j = 0; j < height; j++){
-        var cellElement = $('<div />');
-        cellElement
-          .addClass('canvasCell')
-          //creates an id on each div for canvasGrid
-          .attr('id', ++idIterator);
-        row.append(cellElement);
-      }
-      canvasContainer.append(row);
-    }
-pixelPainterContainer.append(canvasContainer);
+//     for (var i = 0; i < width; i++){
+//       var row = $('<div />');
+//         row
+//         .addClass('row');
+//       for (var j = 0; j < height; j++){
+//         var cellElement = $('<div />');
+//         cellElement
+//           .addClass('canvasCell')
+//           //creates an id on each div for canvasGrid
+//           .attr('id', ++idIterator);
+//         row.append(cellElement);
+//       }
+//       canvasContainer.append(row);
+//     }
+// pixelPainterContainer.append(canvasContainer);
 }
 
 function drawSwatchGrid (x, y) {
-  swatchContainer = $('<div />');
-  swatchContainer
-    .addClass('swatchContainer');
+  // swatchContainer = $('<div />');
+  // swatchContainer
+  //   .addClass('swatchContainer');
 
-  $('div.pixelPainterContainer').append(swatchContainer);
+  // $('div.pixelPainterContainer').append(swatchContainer);
 
-  for (var column=0; column < y; column++){
-    var rowContainer = $('<div />');
-      rowContainer
-      .addClass('row');
+  // for (var column=0; column < y; column++){
+  //   var rowContainer = $('<div />');
+  //     rowContainer
+  //     .addClass('row');
 
-    for (var row=0; row < x; row ++){
-      var cellElement = $('<div />');
-      cellElement
-        .addClass('cell');
-      rowContainer.append(cellElement);
-    }
-    swatchContainer.append(rowContainer);
-  }
+  //   for (var row=0; row < x; row ++){
+  //     var cellElement = $('<div />');
+  //     cellElement
+  //       .addClass('cell');
+  //     rowContainer.append(cellElement);
+  //   }
+  //   swatchContainer.append(rowContainer);
+  // }
 
-  pixelPainterContainer.append(swatchContainer);
+  // pixelPainterContainer.append(swatchContainer);
 
   function generateRandomColor () {
     var red = Math.floor(Math.random()*256);

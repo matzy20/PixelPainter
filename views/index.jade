@@ -2,7 +2,14 @@ html
   head
     link(href='css/PixelPainter.css', rel='stylesheet', media='screen')
   body
-    h1 Pixel Painter
+    h1 All Paintings
       #pixelPainter
+    each painting in paintings
+      h2 Artist: #{painting.artist}
+      h2 Painting Title: #{painting.title}
+
+      div(class="swatchContainer")
+      div(class="canvasContainer")
+
     script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.2.min.js')
-    script(src='js/PixelPainter.js')
+    //- script(src='js/PixelPainter.js')
