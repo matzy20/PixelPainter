@@ -52,6 +52,7 @@ function init () {
       $(this).css("background-color", "white");
       //able to reapply colors again after clicking in swatchGrid
     $('.cell').click(function (events){
+      //TODO: follow-up with Tony on reducing events
       $(this).css("background-color", color);
         $('.canvasCell').click(function (events){
           $(this).css("background-color", color);
@@ -75,9 +76,9 @@ function init () {
       var color = $(element).css("background-color");
       data.push(color);
     });
-    //kept separate from data[] which is for colors, easier this way
+    /*kept variable properties separate from data[] which is for colors which is in an array, easier this way*/
     //added artist and title as two separate properties
-    //kept out of each function
+    //kept out of "each" function
     var artist = $('.artist').val();
     var title = $('.title').val();
     console.log('data', data);

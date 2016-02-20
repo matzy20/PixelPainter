@@ -37,9 +37,16 @@ app.get('/paintings', function (req, res){
     res.render('index', {
       'paintings': paintings
     });
+    res.render('index');
   });
 });
 
+//make new paintings
+app.get('/paintings/new', function (req, res){
+  res.render('newGrid', {});
+});
+
+//grabbing saved PaintingsById
 app.get('/paintings/:id', function (req, res){
   var paintingId = req.params.id;
   console.log('hello', req.params.id);
@@ -50,14 +57,16 @@ app.get('/paintings/:id', function (req, res){
     }
     //TODO: create success res here
   }).then(function(painting){
+    console.log('colors', painting.painting);
     res.render('savedGrid',{
       'artist': painting.artist,
-      'title': painting.title
-
+      'title': painting.title,
+      'colors': painting.painting
     });
   });
 });
 
+//saving paintings and speaking with client/app
 app.post('/paintings', function (req, res){
   // console.log('typeof', typeof(req.body));
   console.log(req.body.colors);
