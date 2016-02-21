@@ -69,7 +69,7 @@ function init () {
 // }
 // function saveButton(events){
   var painting = [];
-  $('.save').click(function (events){
+  $('.saveNew').click(function (events){
     //make sure ajax is accessed before click event completes
     //
     $('.canvasCell').each(function (index, element){
@@ -79,8 +79,8 @@ function init () {
     /*kept variable properties separate from data[] which is for colors which is in an array, easier this way*/
     //added artist and title as two separate properties
     //kept out of "each" function
-    var artist = $('.artist').val();
-    var title = $('.title').val();
+    // var artist = $('.artist').val();
+    // var title = $('.title').val();
     //ajax allows you to grab/reload specific parts to a page vs whole
     //ajax allows client to speak with server
     $.ajax({
@@ -102,8 +102,41 @@ function init () {
         console.log('Hello Ajax', data);
       }
     });
+    painting = [];
   });
 
+  $('.saveUpdate').click(function (events){
+    $('.canvasCell').each(function (index, element){
+      var color = $(element).css("background-color");
+      painting.push(color);
+    });
+    var artist = $('.artist').val();
+    var title = $('.title').val();
+    //see jade file for data syntax
+    var id = $('.canvasContainer').data('painting-id');
+
+    $.ajax({
+      //QUESTION: able to create one also for GET for :id?
+      type: "PUT",
+      url: "/update/" + id,
+      data: JSON.stringify({
+       "painting": painting,
+       "id": id,
+       "artist": artist,
+       "title": title
+       }),
+      dataType: "html",
+      contentType: "application/json",
+      //redirect setup this way since working with json
+      success: function (data) {
+        if(data.redirect){
+          window.location = data.redirect;
+        }
+        console.log('Hello Ajax', data);
+      }
+    });
+    painting = [];
+  });
 
 //   var $button = $('<button />').text('SAVE');
 //   $button.addClass('button');

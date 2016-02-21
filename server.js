@@ -84,6 +84,41 @@ app.post('/paintings', function (req, res){
   });
 });
 
+app.get('/update/:id', function (req, res){
+var paintingId = req.params.id;
+ Painting.findById(paintingId, function (err, paintings){
+    if(err){
+      console.log(paintingId + 'is not a valid ID');
+    }
+  }).then(function(painting){
+    console.log('colors', painting._id);
+    res.render('saveAndUpdate',{
+      'artist': painting.artist,
+      'title': painting.title,
+      'painting': painting.painting,
+      'id': painting._id
+    });
+  });
+});
+//saving and updating paintings
+app.put('/update/:id', function (req, res){
+  var paintingId = req.params.id;
+  Painting.findOne({_id: paintingId})
+  //below is a promise
+  //good for sequence of steps that need to happen
+  .then(function (painting){
+    //new data (req.body) stepping on old
+    //new data provided by ajax, scraping from html as data in req.body
+    painting.painting = req.body.painting;
+   //return allows to continue
+   return painting.save();
+  })
+  .then(function (){
+    res.redirect('/update/:id');
+    console.log("yay");
+  });
+});
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 //db.once is an event listener, and now app.listen can be a call back

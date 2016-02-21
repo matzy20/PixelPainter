@@ -1,0 +1,41 @@
+html
+  head
+    link(href='/css/PixelPainter.css', rel='stylesheet', media='screen')
+  body
+    h1 PaintingsById .. need to update?
+      #pixelPainter
+
+    p Artist: #{artist}
+    input(type="text" name="artist" class="artist")
+
+    p Title: #{title}
+    input(type="text" name="title" class="title")
+
+    //-   FUTURE REF: syntax on accessing array in jade p=colors[0]
+    - var idIterator = 0
+    //- data- holds data that is not rendered
+    div.canvasContainer(data-painting-id='#{id}')
+      - for (var i = 0; i < 3; i++){
+          div
+            - for (var j = 0; j < 3; j++){
+              //since idIterator is 1-9 and colors array is 0-8
+              //need the idIterator-1 to make them both speak
+              //note the html 'inline style' syntax
+              //painting = just ONE index of the array
+              - idIterator++
+                div.canvasCell(id='#{idIterator}' style='background-color:#{painting[idIterator-1]}')
+              -}
+        -}
+    div.swatchContainer
+      - for (var i = 0; i < 3; i++){
+          div
+          - for (var j = 0; j < 3; j++){
+              - ++idIterator
+              div(class="cell" id='#{idIterator}')
+            -}
+        -}
+
+    button(class="button saveUpdate" type="submit" value="SAVE") SAVE AND UPDATE
+
+    script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.2.min.js')
+    script(src='/js/PixelPainter.js')
