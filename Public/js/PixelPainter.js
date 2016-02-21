@@ -76,6 +76,8 @@ function init () {
       var color = $(element).css("background-color");
       painting.push(color);
     });
+    var artist = $('.artist').val();
+    var title = $('.title').val();
     /*kept variable properties separate from data[] which is for colors which is in an array, easier this way*/
     //added artist and title as two separate properties
     //kept out of "each" function
@@ -117,7 +119,6 @@ function init () {
     var id = $('.canvasContainer').data('painting-id');
 
     $.ajax({
-      //QUESTION: able to create one also for GET for :id?
       type: "PUT",
       url: "/update/" + id,
       data: JSON.stringify({
@@ -139,6 +140,27 @@ function init () {
     //resets data to an empty array
     painting = [];
   });
+
+  $('.removePainting').click(function (events){
+    var id = $('.canvasContainer').data('painting-id');
+    $.ajax({
+      type: "DELETE",
+      url: "/update/" + id,
+      data: JSON.stringify({
+       "id": id
+       }),
+      dataType: "html",
+      contentType: "application/json",
+      //redirect setup this way since working with json
+      success: function (data) {
+        console.log('what is data', data);
+        if(data.redirect){
+          window.location.redirect = '/paintings';
+        }
+      }
+    });
+  });
+
 
 //   var $button = $('<button />').text('SAVE');
 //   $button.addClass('button');

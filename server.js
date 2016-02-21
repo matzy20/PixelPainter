@@ -116,8 +116,26 @@ app.put('/update/:id', function (req, res){
    return painting.save();
   })
   .then(function (){
-    res.redirect('/update/:id');
+    res.send({
+      redirect: '/update/' + paintingId
+    });
     console.log("yay");
+  });
+});
+
+app.delete('/update/:id', function (req, res){
+  var paintingId = req.params.id;
+  console.log('req.params', req.params);
+  Painting.findByIdAndRemove({_id: paintingId})
+  .then(function(deletedItem){
+    console.log('inside Delete promise', deletedItem);
+    // res.send({
+    //   redirect: '/paintings'
+    // });
+    res.redirect('/paintings');
+  })
+  .catch(function(err){
+    console.log(err);
   });
 });
 

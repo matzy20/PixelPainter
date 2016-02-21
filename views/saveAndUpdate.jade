@@ -6,10 +6,10 @@ html
       #pixelPainter
 
     p Artist: #{artist}
-    input(type="text" name="artist" class="artist")
+      input(type="text" name="artist" class="artist")
 
     p Title: #{title}
-    input(type="text" name="title" class="title")
+      input(type="text" name="title" class="title")
 
     //-   FUTURE REF: syntax on accessing array in jade p=colors[0]
     - var idIterator = 0
@@ -36,6 +36,7 @@ html
         -}
 
     button(class="button saveUpdate" type="submit" value="SAVE") SAVE AND UPDATE
+    button(class="button removePainting" type="submit" value="SAVE") REMOVE PAINTING
 
     script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.2.min.js')
     script(src='/js/PixelPainter.js')
