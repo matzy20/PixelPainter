@@ -102,6 +102,7 @@ function init () {
         console.log('Hello Ajax', data);
       }
     });
+    //resets data to an empty array
     painting = [];
   });
 
@@ -135,6 +136,7 @@ function init () {
         console.log('Hello Ajax', data);
       }
     });
+    //resets data to an empty array
     painting = [];
   });
 

@@ -91,7 +91,7 @@ var paintingId = req.params.id;
       console.log(paintingId + 'is not a valid ID');
     }
   }).then(function(painting){
-    console.log('colors', painting._id);
+    //feeds jade info needed to render
     res.render('saveAndUpdate',{
       'artist': painting.artist,
       'title': painting.title,
@@ -110,6 +110,8 @@ app.put('/update/:id', function (req, res){
     //new data (req.body) stepping on old
     //new data provided by ajax, scraping from html as data in req.body
     painting.painting = req.body.painting;
+    painting.artist = req.body.artist;
+    painting.title = req.body.title;
    //return allows to continue
    return painting.save();
   })
