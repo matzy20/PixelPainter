@@ -1,6 +1,6 @@
 html
   head
-    link(href='css/PixelPainter.css', rel='stylesheet', media='screen')
+    link(href='/css/PixelPainter.css', rel='stylesheet', media='screen')
   body
     h1 All Paintings
       #pixelPainter
@@ -8,8 +8,20 @@ html
       h2 Artist: #{painting.artist}
       h2 Painting Title: #{painting.title}
 
-      div(class="swatchContainer")
-      div(class="canvasContainer")
+      - var idIterator = 0
+      div.canvasContainer
+        - for (var i = 0; i < 3; i++){
+            div
+              - for (var j = 0; j < 3; j++){
+                //since idIterator is 1-9 and colors array is 0-8
+                //need the idIterator-1 to make them both speak
+                //note the html 'inline style' syntax
+                - idIterator++
+                  //painting.painting = due to "each" above
+                  /*FUTURE: rethink naming, since painting.painting is confusing and not sure what refers to what*/
+                  div.canvasCell(id='#{idIterator}' style='background-color:#{painting.painting[idIterator-1]}')
+                -}
+          -}
 
     script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.2.min.js')
-    script(src='js/PixelPainter.js')
+    script(src='/js/PixelPainter.js')

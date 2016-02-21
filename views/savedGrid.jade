@@ -17,8 +17,9 @@ html
               //since idIterator is 1-9 and colors array is 0-8
               //need the idIterator-1 to make them both speak
               //note the html 'inline style' syntax
-              - ++idIterator
-                div.canvasCell(id='#{idIterator}' style='background-color:#{colors[idIterator-1]}')
+              //painting = just ONE index of the array
+              - idIterator++
+                div.canvasCell(id='#{idIterator}' style='background-color:#{painting[idIterator-1]}')
               -}
         -}
 

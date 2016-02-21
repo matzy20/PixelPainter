@@ -68,32 +68,37 @@ function init () {
   // });
 // }
 // function saveButton(events){
-  var data = [];
+  var painting = [];
   $('.save').click(function (events){
     //make sure ajax is accessed before click event completes
     //
     $('.canvasCell').each(function (index, element){
       var color = $(element).css("background-color");
-      data.push(color);
+      painting.push(color);
     });
     /*kept variable properties separate from data[] which is for colors which is in an array, easier this way*/
     //added artist and title as two separate properties
     //kept out of "each" function
     var artist = $('.artist').val();
     var title = $('.title').val();
-    console.log('data', data);
+    //ajax allows you to grab/reload specific parts to a page vs whole
+    //ajax allows client to speak with server
     $.ajax({
       //QUESTION: able to create one also for GET for :id?
       type: "POST",
       url: "/paintings",
       data: JSON.stringify({
-       "colors": data,
+       "painting": painting,
        "artist": artist,
        "title": title
        }),
       dataType: "JSON",
       contentType: "application/json",
+      //redirect setup this way since working with json
       success: function (data) {
+        if(data.redirect){
+          window.location = data.redirect;
+        }
         console.log('Hello Ajax', data);
       }
     });

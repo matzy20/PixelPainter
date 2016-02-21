@@ -31,19 +31,21 @@ app.set('view engine', 'jade');
 //see all INDEX of paintings
 app.get('/paintings', function (req, res){
   Painting.find({}, function (err, paintings){
+    console.log('paintings', paintings);
     if(err){
       res.send(err + 'no Paintings to display');
     }
     res.render('index', {
       'paintings': paintings
     });
-    res.render('index');
   });
 });
 
 //make new paintings
 app.get('/paintings/new', function (req, res){
-  res.render('newGrid', {});
+  //QUESTION: empty object literal necessary in render?
+  //No, only if render is REQUIRING in info, which its not
+  res.render('newGrid');
 });
 
 //grabbing saved PaintingsById
@@ -55,32 +57,30 @@ app.get('/paintings/:id', function (req, res){
     if(err){
       console.log(paintingId + 'is not a valid ID');
     }
-    //TODO: create success res here
   }).then(function(painting){
     console.log('colors', painting.painting);
     res.render('savedGrid',{
       'artist': painting.artist,
       'title': painting.title,
-      'colors': painting.painting
+      'painting': painting.painting
     });
   });
 });
 
-//saving paintings and speaking with client/app
+//saving paintings
 app.post('/paintings', function (req, res){
   // console.log('typeof', typeof(req.body));
-  console.log(req.body.colors);
   var newPainting = new Painting ({
     artist: req.body.artist,
     title: req.body.title,
-    painting: req.body.colors
+    painting: req.body.painting
   });
-  //speaking with ajax in client/app
-  //if successful, ajax's message will show
-  //callback in save sent back painting object
+  //since working with json need redirect setup this way
   newPainting.save(function(err, painting){
-    //json since painting is an object
-    res.json(painting);
+    var paintingId = newPainting._id;
+    res.send({
+      redirect: '/paintings/' + paintingId
+    });
   });
 });
 
