@@ -127,7 +127,7 @@ function init () {
        "artist": artist,
        "title": title
        }),
-      dataType: "html",
+      dataType: "JSON",
       contentType: "application/json",
       //redirect setup this way since working with json
       success: function (data) {
@@ -149,13 +149,12 @@ function init () {
       data: JSON.stringify({
        "id": id
        }),
-      dataType: "html",
+      dataType: "JSON",
       contentType: "application/json",
       //redirect setup this way since working with json
       success: function (data) {
-        console.log('what is data', data);
         if(data.redirect){
-          window.location.redirect = '/paintings';
+          window.location = data.redirect;
         }
       }
     });
